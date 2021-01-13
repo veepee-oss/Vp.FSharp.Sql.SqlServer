@@ -57,25 +57,30 @@ type SqlServerDbValue =
 type SqlServerCommandDefinition =
     CommandDefinition<
         SqlConnection,
-        SqlTransaction,
         SqlCommand,
         SqlParameter,
         SqlDataReader,
+        SqlTransaction,
         SqlServerDbValue>
 
-type SqlServerGlobalConf =
-    SqlGlobalConf<
+type SqlServerConfiguration =
+    SqlConfigurationCache<
         SqlConnection,
         SqlCommand>
 
-type SqlServerDeps =
-    SqlDeps<
+type SqlServerDependencies =
+    SqlDependencies<
         SqlConnection,
-        SqlTransaction,
         SqlCommand,
         SqlParameter,
         SqlDataReader,
+        SqlTransaction,
         SqlServerDbValue>
+
+[<RequireQualifiedAccess>]
+module SqlServerNullDbValue =
+    let ifNone toDbValue = NullDbValue.ifNone toDbValue SqlServerDbValue.Null
+    let ifError toDbValue = NullDbValue.ifError toDbValue (fun _ -> SqlServerDbValue.Null)
 
 [<RequireQualifiedAccess>]
 module SqlServerCommand =
@@ -189,7 +194,7 @@ module SqlServerCommand =
             parameter.SqlDbType <- SqlDbType.Variant
         parameter
 
-    let private deps: SqlServerDeps =
+    let private deps: SqlServerDependencies =
         { CreateCommand = fun connection -> connection.CreateCommand()
           ExecuteReaderAsync = fun command -> command.ExecuteReaderAsync
           DbValueToParameter = dbValueToParameter }
@@ -237,34 +242,34 @@ module SqlServerCommand =
     /// Return the sets of rows as an AsyncSeq accordingly to the command definition.
     let queryAsyncSeq connection read (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.queryAsyncSeq
-            connection deps (SqlServerGlobalConf.Snapshot) read commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) read commandDefinition
 
     /// Return the sets of rows as a list accordingly to the command definition.
     let queryList connection read (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.queryList
-            connection deps (SqlServerGlobalConf.Snapshot) read commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) read commandDefinition
 
     /// Return the first set of rows as a list accordingly to the command definition.
     let querySetList connection read (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.querySetList
-            connection deps (SqlServerGlobalConf.Snapshot) read commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) read commandDefinition
 
     /// Return the 2 first sets of rows as a tuple of 2 lists accordingly to the command definition.
     let querySetList2 connection read1 read2 (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.querySetList2
-            connection deps (SqlServerGlobalConf.Snapshot) read1 read2 commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) read1 read2 commandDefinition
 
     /// Return the 3 first sets of rows as a tuple of 3 lists accordingly to the command definition.
     let querySetList3 connection read1 read2 read3 (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.querySetList3
-            connection deps (SqlServerGlobalConf.Snapshot) read1 read2 read3 commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) read1 read2 read3 commandDefinition
 
     /// Execute the command accordingly to its definition and,
     /// - return the first cell value, if it is available and of the given type.
     /// - throw an exception, otherwise.
     let executeScalar<'Scalar> connection (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.executeScalar<'Scalar, _, _, _, _, _, _, _, _, _>
-            connection deps (SqlServerGlobalConf.Snapshot) commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) commandDefinition
 
     /// Execute the command accordingly to its definition and,
     /// - return Some, if the first cell is available and of the given type.
@@ -272,9 +277,9 @@ module SqlServerCommand =
     /// - throw an exception, otherwise.
     let executeScalarOrNone<'Scalar> connection (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.executeScalarOrNone<'Scalar, _, _, _, _, _, _, _, _, _>
-            connection deps (SqlServerGlobalConf.Snapshot) commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) commandDefinition
 
     /// Execute the command accordingly to its definition and, return the number of rows affected.
     let executeNonQuery connection (commandDefinition: SqlServerCommandDefinition) =
         SqlCommand.executeNonQuery
-            connection deps (SqlServerGlobalConf.Snapshot) commandDefinition
+            connection deps (SqlServerConfiguration.Snapshot) commandDefinition
