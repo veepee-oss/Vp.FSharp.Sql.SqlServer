@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0" />
-    <PackageReference Include="Vp.FSharp.Sql" Version="1.0.32" />
+    <PackageReference Include="Vp.FSharp.Sql" Version="1.0.33" />
   </ItemGroup>
 
 </Project>
