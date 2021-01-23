@@ -4,7 +4,7 @@ module Vp.FSharp.Sql.SqlServer.SqlServerTransaction
 open Vp.FSharp.Sql
 
 
-let beginTransactionAsync = SqlServerCommand.deps.BeginTransactionAsync
+let beginTransactionAsync = Constants.Deps.BeginTransactionAsync
 
 let commit cancellationToken isolationLevel connection body =
     Transaction.commit cancellationToken isolationLevel connection beginTransactionAsync body

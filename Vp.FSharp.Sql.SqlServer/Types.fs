@@ -76,7 +76,6 @@ type SqlServerDependencies =
         SqlParameter,
         SqlDataReader,
         SqlTransaction,
-        IsolationLevel,
         SqlServerDbValue>
 
 [<AbstractClass; Sealed>]
