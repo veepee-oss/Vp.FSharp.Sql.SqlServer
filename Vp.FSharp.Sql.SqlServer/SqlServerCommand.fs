@@ -1,12 +1,6 @@
 ﻿[<RequireQualifiedAccess>]
 module Vp.FSharp.Sql.SqlServer.SqlServerCommand
 
-open System
-open System.Data
-open System.Threading.Tasks
-
-open Microsoft.Data.SqlClient
-
 open Vp.FSharp.Sql
 
 
@@ -79,7 +73,7 @@ let querySetList3 connection read1 read2 read3 (commandDefinition: SqlServerComm
 /// - return the first cell value, if it is available and of the given type.
 /// - throw an exception, otherwise.
 let executeScalar<'Scalar> connection (commandDefinition: SqlServerCommandDefinition) =
-    SqlCommand.executeScalar<'Scalar, _, _, _, _, _, _, _, _, _>
+    SqlCommand.executeScalar<'Scalar, _, _, _, _, _, _, _, _>
         connection (Constants.Deps) (SqlServerConfiguration.Snapshot) commandDefinition
 
 /// Execute the command accordingly to its definition and,
@@ -87,7 +81,7 @@ let executeScalar<'Scalar> connection (commandDefinition: SqlServerCommandDefini
 /// - return None, if first cell is DbNull.
 /// - throw an exception, otherwise.
 let executeScalarOrNone<'Scalar> connection (commandDefinition: SqlServerCommandDefinition) =
-    SqlCommand.executeScalarOrNone<'Scalar, _, _, _, _, _, _, _, _, _>
+    SqlCommand.executeScalarOrNone<'Scalar, _, _, _, _, _, _, _, _>
         connection (Constants.Deps) (SqlServerConfiguration.Snapshot) commandDefinition
 
 /// Execute the command accordingly to its definition and, return the number of rows affected.
