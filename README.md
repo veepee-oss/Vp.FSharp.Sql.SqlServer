@@ -1,8 +1,6 @@
 # Vp.FSharp.Sql.SqlServer
 
-The library providing specific native DB types definition for Microsoft SQL Server and
-relying on [`Microsoft.Data.SqlClient`](https://github.com/dotnet/SqlClient) and
-providing a DB-specific module `SqlServer`.
+An opinionated F# library to interact with PostgreSQL databases following [`Microsoft.Data.SqlClient`](https://github.com/dotnet/SqlClient) principles and relying on [`Npsql`](https://www.npgsql.org).
 
 ## Slagging Hype
 
