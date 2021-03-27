@@ -196,6 +196,8 @@ type internal Constants private () =
 
         { CreateCommand = fun connection -> connection.CreateCommand()
           SetCommandTransaction = fun command transaction -> command.Transaction <- transaction
+          BeginTransaction = fun connection -> connection.BeginTransaction
           BeginTransactionAsync = beginTransactionAsync
+          ExecuteReader = fun command -> command.ExecuteReader()
           ExecuteReaderAsync = fun command -> command.ExecuteReaderAsync
           DbValueToParameter = Constants.DbValueToParameter }
