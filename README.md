@@ -279,7 +279,7 @@ connection.Open()
 use transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted)
 
 // Create a table
-SqlServerCommand.text $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+SqlServerCommand.text $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
 |> SqlServerCommand.transaction transaction
 |> SqlServerCommand.executeNonQuery connection
 |> Async.RunSynchronously
@@ -935,7 +935,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commit (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -977,7 +977,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitSync (IsolationLevel.ReadCommitted) connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1016,7 +1016,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.notCommit (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);" 
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);" 
         |> SqlServerCommand.text
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1059,7 +1059,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.notCommitSync (IsolationLevel.ReadCommitted) connection (fun connection _ -> 
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);" 
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);" 
     |> SqlServerCommand.text
     |> SqlServerCommand.executeNonQuery connection
     |> ignore
@@ -1101,7 +1101,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnSome (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1136,7 +1136,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnSome (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1182,7 +1182,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnSomeSync (IsolationLevel.ReadCommitted) connection (fun connection _ -> 
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1215,7 +1215,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnSomeSync (IsolationLevel.ReadCommitted) connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1259,7 +1259,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnOk (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1294,7 +1294,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnOk (CancellationToken.None) (IsolationLevel.ReadCommitted) connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1340,7 +1340,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnOkSync (IsolationLevel.ReadCommitted) connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1373,7 +1373,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.commitOnOkSync (IsolationLevel.ReadCommitted) connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1415,7 +1415,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommit connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1457,7 +1457,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitSync connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1496,7 +1496,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultNotCommit connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);" 
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);" 
         |> SqlServerCommand.text
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1539,7 +1539,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultNotCommitSync connection (fun connection _ -> 
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);" 
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);" 
     |> SqlServerCommand.text
     |> SqlServerCommand.executeNonQuery connection
     |> ignore
@@ -1581,7 +1581,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnSome connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1616,7 +1616,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnSome connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1662,7 +1662,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnSomeSync connection (fun connection _ -> 
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1695,7 +1695,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnSomeSync connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1739,7 +1739,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnOk connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1774,7 +1774,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnOk connection (fun connection _ -> async {
-    do! $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    do! $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
         |> SqlServerCommand.text 
         |> SqlServerCommand.executeNonQuery connection
         |> Async.Ignore
@@ -1820,7 +1820,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnOkSync connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
@@ -1853,7 +1853,7 @@ use connection = new SqlConnection("Server=192.168.0.1,4242;Database=MyDatabase;
 connection.Open()
 
 SqlServerTransaction.defaultCommitOnOkSync connection (fun connection _ ->
-    $"CREATE TABLE {tableName} (id SERIAL PRIMARY KEY, name TEXT NOT NULL);"
+    $"CREATE TABLE {tableName} (id int IDENTITY(1,1) PRIMARY KEY, name TEXT NOT NULL);"
     |> SqlServerCommand.text 
     |> SqlServerCommand.executeNonQuerySync connection
     |> ignore
