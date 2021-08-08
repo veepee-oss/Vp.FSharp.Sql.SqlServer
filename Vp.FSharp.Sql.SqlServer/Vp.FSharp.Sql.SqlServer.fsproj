@@ -13,7 +13,7 @@
     <PackageId>Vp.FSharp.Sql.SqlServer</PackageId>
     <PackageTags>Veepee,F#,fsharp,functional,SQL,SQL Server,Microsoft.Data.SqlClient</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>ISC</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
