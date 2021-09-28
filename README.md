@@ -780,7 +780,7 @@ SqlServerCommand.text "SELECT 42;"
 |> Async.RunSynchronously
 |> printfn "%A"
 
-SqlServerCommand.text "SELECT NUL;"
+SqlServerCommand.text "SELECT NULL;"
 |> SqlServerCommand.executeScalarOrNone<int32> connection
 |> Async.RunSynchronously
 |> printfn "%A"
