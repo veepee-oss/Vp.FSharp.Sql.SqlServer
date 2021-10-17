@@ -216,4 +216,4 @@ type internal Constants private () =
             parameter.SqlDbType <- dbType
         parameter
 
-    static member Deps = deps 
+    static member Deps = deps
