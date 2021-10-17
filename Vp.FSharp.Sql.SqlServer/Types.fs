@@ -15,8 +15,7 @@ open Vp.FSharp.Sql
 /// and https://stackoverflow.com/a/968734/4636721
 type SqlServerDbValue =
     | Null
-    /// System.Boolean.
-    /// An unsigned numeric value that can be 0, 1, or null.
+
     | Bit of bool
 
     | TinyInt  of uint8
@@ -31,7 +30,7 @@ type SqlServerDbValue =
     | Money      of decimal
     | Decimal    of decimal
     | Numeric    of decimal
-    
+
     | Binary     of uint8 array
     | VarBinary  of uint8 array
     | Image      of uint8 array
@@ -54,11 +53,11 @@ type SqlServerDbValue =
     | NVarChar of string
     | Text     of string
     | NText    of string
-    
+
     | Xml of SqlXml
 
     | SqlVariant of obj
-    
+
     | Custom of (SqlDbType * obj)
 
 type SqlServerCommandDefinition =
@@ -86,6 +85,18 @@ type SqlServerDependencies =
 
 [<AbstractClass; Sealed>]
 type internal Constants private () =
+
+    static let beginTransactionAsync (connection: SqlConnection) (isolationLevel: IsolationLevel) _ =
+        ValueTask.FromResult(connection.BeginTransaction(isolationLevel))
+
+    static let deps : SqlServerDependencies =
+        { CreateCommand = fun connection -> connection.CreateCommand()
+          SetCommandTransaction = fun command transaction -> command.Transaction <- transaction
+          BeginTransaction = fun connection -> connection.BeginTransaction
+          BeginTransactionAsync = beginTransactionAsync
+          ExecuteReader = fun command -> command.ExecuteReader()
+          ExecuteReaderAsync = fun command -> command.ExecuteReaderAsync
+          DbValueToParameter = Constants.DbValueToParameter }
 
     static member DbValueToParameter name value =
         let parameter = SqlParameter()
@@ -205,14 +216,4 @@ type internal Constants private () =
             parameter.SqlDbType <- dbType
         parameter
 
-    static member Deps : SqlServerDependencies =
-        let beginTransactionAsync (connection: SqlConnection) (isolationLevel: IsolationLevel) _ =
-            ValueTask.FromResult(connection.BeginTransaction(isolationLevel))
-
-        { CreateCommand = fun connection -> connection.CreateCommand()
-          SetCommandTransaction = fun command transaction -> command.Transaction <- transaction
-          BeginTransaction = fun connection -> connection.BeginTransaction
-          BeginTransactionAsync = beginTransactionAsync
-          ExecuteReader = fun command -> command.ExecuteReader()
-          ExecuteReaderAsync = fun command -> command.ExecuteReaderAsync
-          DbValueToParameter = Constants.DbValueToParameter }
+    static member Deps = deps 
