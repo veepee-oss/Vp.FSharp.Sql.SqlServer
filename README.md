@@ -39,46 +39,51 @@ Just a little FYI:
 /// and https://stackoverflow.com/a/968734/4636721
 type SqlServerDbValue =
     | Null
+    /// System.Boolean.
+    /// An unsigned numeric value that can be 0, 1, or null.
     | Bit of bool
 
-    | TinyInt of uint8
+    | TinyInt  of uint8
     | SmallInt of int16
-    | Int of int32
-    | BigInt of int64
+    | Int      of int32
+    | BigInt   of int64
 
-    | Real of single
+    | Real  of single
     | Float of double
 
-    | Numeric of decimal
     | SmallMoney of decimal
-    | Money of decimal
-    | Decimal of decimal
-
-    | Binary of uint8 array
-    | VarBinary of uint8 array
-    | Image of uint8 array
+    | Money      of decimal
+    | Decimal    of decimal
+    | Numeric    of decimal
+    
+    | Binary     of uint8 array
+    | VarBinary  of uint8 array
+    | Image      of uint8 array
     | RowVersion of uint8 array
     | FileStream of uint8 array
-    | Timestamp of uint8 array
+    | Timestamp  of uint8 array
 
     | UniqueIdentifier of Guid
 
-    | Time of TimeSpan
-    | Date of DateTime
-    | SmallDateTime of DateTime
-    | DateTime of DateTime
-    | DateTime2 of DateTime
+    | Time           of TimeSpan
+    | Date           of DateTime
+    | SmallDateTime  of DateTime
+    | DateTime       of DateTime
+    | DateTime2      of DateTime
     | DateTimeOffset of DateTimeOffset
 
-    | Char of string
-    | NChar of string
-    | VarChar of string
+    | Char     of string
+    | NChar    of string
+    | VarChar  of string
     | NVarChar of string
-    | Text of string
-    | NText of string
-    | Xml of string
+    | Text     of string
+    | NText    of string
+    
+    | Xml of SqlXml
 
     | SqlVariant of obj
+    
+    | Custom of (SqlDbType * obj)
 ```
 
 ## 🧱`SqlServerCommand`
@@ -207,6 +212,9 @@ Output:
 ```txt
 84.0
 ```
+
+Note: in case you want to pass some types that aren't yet supported by the library,  
+you can use the `Custom` DU case which allows you to pass whatever underlying `SqlDbType` with the relevant `obj` value.
 
 </details>
 

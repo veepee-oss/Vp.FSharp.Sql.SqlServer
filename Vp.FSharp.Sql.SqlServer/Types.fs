@@ -2,6 +2,7 @@
 
 open System
 open System.Data
+open System.Data.SqlTypes
 open System.Threading.Tasks
 
 open Microsoft.Data.SqlClient
@@ -14,46 +15,51 @@ open Vp.FSharp.Sql
 /// and https://stackoverflow.com/a/968734/4636721
 type SqlServerDbValue =
     | Null
+    /// System.Boolean.
+    /// An unsigned numeric value that can be 0, 1, or null.
     | Bit of bool
 
-    | TinyInt of uint8
+    | TinyInt  of uint8
     | SmallInt of int16
-    | Int of int32
-    | BigInt of int64
+    | Int      of int32
+    | BigInt   of int64
 
-    | Real of single
+    | Real  of single
     | Float of double
 
-    | Numeric of decimal
     | SmallMoney of decimal
-    | Money of decimal
-    | Decimal of decimal
-
-    | Binary of uint8 array
-    | VarBinary of uint8 array
-    | Image of uint8 array
+    | Money      of decimal
+    | Decimal    of decimal
+    | Numeric    of decimal
+    
+    | Binary     of uint8 array
+    | VarBinary  of uint8 array
+    | Image      of uint8 array
     | RowVersion of uint8 array
     | FileStream of uint8 array
-    | Timestamp of uint8 array
+    | Timestamp  of uint8 array
 
     | UniqueIdentifier of Guid
 
-    | Time of TimeSpan
-    | Date of DateTime
-    | SmallDateTime of DateTime
-    | DateTime of DateTime
-    | DateTime2 of DateTime
+    | Time           of TimeSpan
+    | Date           of DateTime
+    | SmallDateTime  of DateTime
+    | DateTime       of DateTime
+    | DateTime2      of DateTime
     | DateTimeOffset of DateTimeOffset
 
-    | Char of string
-    | NChar of string
-    | VarChar of string
+    | Char     of string
+    | NChar    of string
+    | VarChar  of string
     | NVarChar of string
-    | Text of string
-    | NText of string
-    | Xml of string
+    | Text     of string
+    | NText    of string
+    
+    | Xml of SqlXml
 
     | SqlVariant of obj
+    
+    | Custom of (SqlDbType * obj)
 
 type SqlServerCommandDefinition =
     CommandDefinition<
@@ -87,12 +93,14 @@ type internal Constants private () =
         match value with
         | Null ->
             parameter.Value <- DBNull.Value
+        
         | Bit value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Bit
+        
         | TinyInt value ->
             parameter.Value <- value
-            parameter.SqlDbType <- SqlDbType.SmallInt
+            parameter.SqlDbType <- SqlDbType.TinyInt
         | SmallInt value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.SmallInt
@@ -102,16 +110,18 @@ type internal Constants private () =
         | BigInt value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.BigInt
+        
         | Real value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Real
         | Float value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Float
-        | Numeric value ->
+        
+        | Decimal value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Decimal
-        | Decimal value ->
+        | Numeric value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Decimal
         | SmallMoney value ->
@@ -120,11 +130,8 @@ type internal Constants private () =
         | Money value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Money
-
+        
         | Binary value ->
-            parameter.Value <- value
-            parameter.SqlDbType <- SqlDbType.VarBinary
-        | FileStream value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.VarBinary
         | VarBinary value ->
@@ -136,6 +143,9 @@ type internal Constants private () =
         | RowVersion value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Timestamp
+        | FileStream value ->
+            parameter.Value <- value
+            parameter.SqlDbType <- SqlDbType.VarBinary
         | Timestamp value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Timestamp
@@ -158,7 +168,7 @@ type internal Constants private () =
             parameter.SqlDbType <- SqlDbType.DateTime
         | DateTime2 value ->
             parameter.Value <- value
-            parameter.SqlDbType <- SqlDbType.DateTime
+            parameter.SqlDbType <- SqlDbType.DateTime2
         | DateTimeOffset value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.DateTimeOffset
@@ -181,6 +191,7 @@ type internal Constants private () =
         | NText value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.NText
+        
         | Xml value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Xml
@@ -188,6 +199,10 @@ type internal Constants private () =
         | SqlVariant value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Variant
+            
+        | Custom (dbType, value) ->
+            parameter.Value <- value
+            parameter.SqlDbType <- dbType
         parameter
 
     static member Deps : SqlServerDependencies =
