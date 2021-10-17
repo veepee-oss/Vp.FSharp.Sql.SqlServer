@@ -93,11 +93,11 @@ type internal Constants private () =
         match value with
         | Null ->
             parameter.Value <- DBNull.Value
-        
+
         | Bit value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Bit
-        
+
         | TinyInt value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.TinyInt
@@ -110,14 +110,14 @@ type internal Constants private () =
         | BigInt value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.BigInt
-        
+
         | Real value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Real
         | Float value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Float
-        
+
         | Decimal value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Decimal
@@ -130,7 +130,7 @@ type internal Constants private () =
         | Money value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Money
-        
+
         | Binary value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.VarBinary
@@ -191,7 +191,7 @@ type internal Constants private () =
         | NText value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.NText
-        
+
         | Xml value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Xml
@@ -199,7 +199,7 @@ type internal Constants private () =
         | SqlVariant value ->
             parameter.Value <- value
             parameter.SqlDbType <- SqlDbType.Variant
-            
+
         | Custom (dbType, value) ->
             parameter.Value <- value
             parameter.SqlDbType <- dbType
